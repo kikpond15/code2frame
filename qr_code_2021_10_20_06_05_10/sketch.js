@@ -35,9 +35,13 @@ function makeCode() {
     const qrCodeImage = qrChildren[1];
     const base64 = qrCodeImage.getAttribute('src');
 
+
+
     console.log(qrChildren);
     console.log(qrCodeImage);
-    console.log(typeof base64);
+    console.log(base64);
+
+    //console.log(qrChildren[1].toDataURL("image/png"));
     //img = loadImage(base64);
 
 }

@@ -44,7 +44,12 @@ function setup() {
 
     imageMode(LEFT);
 
-    qrDiv = createDiv('');
+    qrDiv = new QRCode(document.getElementById("qrcode"), {
+        width: 100,
+        height: 100
+    });
+
+
 }
 
 function draw() {
@@ -66,11 +71,29 @@ function preview() {
     let name = inputName.value();
     let title = inputTitle.value();
 
-    // if (inputURL != null) {
-    //     //let qrcode = new QRcode();
-    //     qrcode.makeCode(inputURL.value());
-    //     console.log(qr);
-    // }
+    if (inputURL != null) {
+        qrDiv.makeCode(inputURL.value());
+
+        const qrCodeContainer = document.getElementById('qrcode');
+        const qrChildren = qrCodeContainer.children;
+        const qrCodeImage = qrChildren[1];
+        const base64 = qrCodeImage.getAttribute('src');
+        console.log(qrChildren);
+        console.log(qrCodeImage);
+        console.log(base64);
+
+        //--------new----------------
+        // const qrDivChild = qrDiv.children;
+        // console.log(qrDiv);
+        // console.log(qrDiv._oDrawing._elImage.src);
+        //qrImage = loadImage(qrDiv._oDrawing._elImage);
+
+        //console.log(qrChildren[1].toDataURL("image/png"));
+
+        //const src = qrDiv.children['src'].toDataURL("image/png");
+        //console.info('src', src);
+        //console.log(qrDiv.children[1].toDataURL("image/png"));
+    }
 
     if (p5Img) {
         pg = createGraphics(2480, 3507); //A4 size(2894 x 3507)
