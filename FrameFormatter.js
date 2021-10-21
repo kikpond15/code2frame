@@ -1,112 +1,123 @@
 let myFont;
-let inputName;
-let inputTitle;
-let inputImage;
-let inputURL;
+let inputName, inputTitle, inputImage, inputURL;
+let previewButton, saveButton;
+let scaleSlider;
 
-let previewButton;
-let saveButton;
-let pg;
 let p5Img, previewImg;
-let qrImage;
-let qrcode;
-let qrDiv;
-//A4 pix size 2894 x 
+let qrImage, qrDiv;
+let cnv;
+let createrName, title;
+
 
 function preload() {
-    myFont = loadFont('assets/Inconsolata-Regular.ttf');
+    //myFont = loadFont('assets/Inconsolata-Regular.ttf');
+    //myFont = loadFont('ヒラギノ角ゴシック');
 }
 
+
 function setup() {
-    createCanvas(2894, 3507);
-    textFont(myFont);
-    textSize(20);
+    cnv = createCanvas(2480, 3508);
+    //textFont(myFont);
+    textFont('Georgia');
+    textSize(100);
 
-    inputName = createInput();
-    inputName.position(20, 60);
+    let div = createDiv('Code2Frame');
+    div.style('font-size', '30px');
+    div.position(20, 0);
 
-    inputTitle = createInput();
-    inputTitle.position(20, 120);
+    let divName = createDiv('name');
+    divName.style('font-size', '16px');
+    divName.position(20, 50);
 
-    inputImage = createFileInput(handleFile);
-    inputImage.position(20, 175);
+    inputName = createInput('');
+    inputName.position(100, 50);
+
+    let divTitle = createDiv('title');
+    divTitle.style('font-size', '16px');
+    divTitle.position(20, 80);
+
+    inputTitle = createInput('');
+    inputTitle.position(100, 80);
+
+    let divURL = createDiv('site url');
+    divURL.style('font-size', '16px');
+    divURL.position(20, 110);
 
     inputURL = createInput('');
-    inputURL.position(20, 235);
+    inputURL.position(100, 110);
+
+    let divImage = createDiv('file select');
+    divImage.style('font-size', '16px');
+    divImage.position(20, 142);
+
+    inputImage = createFileInput(handleFile);
+    inputImage.position(100, 142);
+
+    let divSlider = createDiv('scale');
+    divSlider.style('font-size', '16px');
+    divSlider.position(20, 180);
+
+    scaleSlider = createSlider(1, 10, 1, 0.1);
+    scaleSlider.position(100, 180);
 
     previewButton = createButton('preview');
-    previewButton.position(20, 270);
+    previewButton.position(20, 220);
     previewButton.mousePressed(preview);
 
     saveButton = createButton('export');
-    saveButton.position(100, 270);
+    saveButton.position(100, 220);
     saveButton.mousePressed(exportImage);
 
-    imageMode(LEFT);
+    imageMode(CENTER);
 
     qrDiv = new QRCode(document.getElementById("qrcode"), {
-        width: 100,
-        height: 100
+        width: 256,
+        height: 256
     });
-
-
 }
 
 function draw() {
-    background(180);
-    text('creater name', 20, 50);
-    text('title', 20, 110);
-    text('inport image', 20, 170);
-    text('code site url(openProcessing/p5 editor/GitHub)', 20, 230);
+    background(255);
 
     if (previewImg) {
-        image(previewImg, 20, 300, 289, 409);
+        image(previewImg, width / 2, height / 2, previewImg.width * scaleSlider.value(), previewImg.height * scaleSlider.value());
     }
     if (qrImage) {
-        image(qrImage, 20, 300, 289, 409);
+        image(qrImage, width - qrImage.width, height - (qrImage.height / 2 + 10));
+    }
+
+    if (createrName) {
+        text(createrName, 100, height - 110);
+    }
+    if (title) {
+        text(title, 100, height - 10);
     }
 }
 
 function preview() {
-    let name = inputName.value();
-    let title = inputTitle.value();
+    createrName = inputName.value();
+    title = inputTitle.value();
+
+    if (p5Img) {
+        previewImg = p5Img;
+    }
 
     if (inputURL != null) {
         qrDiv.makeCode(inputURL.value());
-
         const qrCodeContainer = document.getElementById('qrcode');
-        const qrChildren = qrCodeContainer.children;
-        const qrCodeImage = qrChildren[1];
-        const base64 = qrCodeImage.getAttribute('src');
-        console.log(qrChildren);
-        console.log(qrCodeImage);
-        console.log(base64);
-
-        //--------new----------------
-        // const qrDivChild = qrDiv.children;
-        // console.log(qrDiv);
-        // console.log(qrDiv._oDrawing._elImage.src);
-        //qrImage = loadImage(qrDiv._oDrawing._elImage);
-
-        //console.log(qrChildren[1].toDataURL("image/png"));
-
-        //const src = qrDiv.children['src'].toDataURL("image/png");
-        //console.info('src', src);
-        //console.log(qrDiv.children[1].toDataURL("image/png"));
-    }
-
-    if (p5Img) {
-        pg = createGraphics(2480, 3507); //A4 size(2894 x 3507)
-        pg.background(255);
-        pg.imageMode(CENTER);
-        pg.image(p5Img, pg.width / 2, pg.height / 2); //center position
-        stroke(0);
-        pg.textSize(100);
-        pg.textFont(myFont);
-        pg.text(title, 150, 3200);
-        pg.text(name, 150, 3360);
-
-        previewImg = pg;
+        new QRCode(qrCodeContainer, inputURL.value());
+        const onGeneratedQrImage = function() {
+            const qrCodeImage = qrCodeContainer.children[1];
+            const base64 = qrCodeImage.getAttribute('src');
+            if (base64 === null) {
+                setTimeout(onGeneratedQrImage, 100);
+            } else {
+                console.log(qrCodeImage);
+                console.log(base64);
+                qrImage = loadImage(base64);
+            }
+        };
+        setTimeout(onGeneratedQrImage, 100);
     }
 }
 
@@ -121,5 +132,5 @@ function handleFile(file) {
 }
 
 function exportImage() {
-    save('myCanvas', 'svg');
+    save(cnv, 'myCanvas', 'png');
 }
