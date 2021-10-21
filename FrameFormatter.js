@@ -83,16 +83,16 @@ function draw() {
         image(previewImg, width / 2, height / 2, previewImg.width * scaleSlider.value(), previewImg.height * scaleSlider.value());
     }
     if (qrImage) {
-        image(qrImage, width - qrImage.width, height - (qrImage.height / 2 + 10));
+        image(qrImage, width - (qrImage.width / 2 + 10), height - (qrImage.height / 2 + 10));
     }
 
     if (title) {
         textSize(120);
-        text(title, 100, height - 150);
+        text(title, 50, height - 170);
     }
     if (createrName) {
-        textSize(100);
-        text('by ' + createrName, 100, height - 10);
+        textSize(90);
+        text('by ' + createrName, 50, height - 25);
     }
 
 }
