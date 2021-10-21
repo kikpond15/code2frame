@@ -86,12 +86,15 @@ function draw() {
         image(qrImage, width - qrImage.width, height - (qrImage.height / 2 + 10));
     }
 
-    if (createrName) {
-        text(createrName, 100, height - 110);
-    }
     if (title) {
-        text(title, 100, height - 10);
+        textSize(120);
+        text(title, 100, height - 150);
     }
+    if (createrName) {
+        textSize(100);
+        text('by ' + createrName, 100, height - 10);
+    }
+
 }
 
 function preview() {
