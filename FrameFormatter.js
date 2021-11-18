@@ -4,14 +4,15 @@ let previewButton, saveButton;
 let scaleSlider;
 
 let p5Img, previewImg;
-let qrImage, qrDiv;
+let qrImage, qrDiv, qrSample;
 let cnv;
 let createrName, title;
-
+let isExport;
 
 function preload() {
     //myFont = loadFont('assets/Inconsolata-Regular.ttf');
     //myFont = loadFont('ヒラギノ角ゴシック');
+    qrSample = loadImage('img/QR.png');
 }
 
 
@@ -20,6 +21,7 @@ function setup() {
     //textFont(myFont);
     textFont('Georgia');
     textSize(100);
+    isExport = false;
 
     let div = createDiv('Code2Frame');
     div.style('font-size', '30px');
@@ -79,22 +81,56 @@ function setup() {
 function draw() {
     background(255);
 
-    if (previewImg) {
-        image(previewImg, width / 2, height / 2, previewImg.width * scaleSlider.value(), previewImg.height * scaleSlider.value());
+    if(!isExport){
+        //2480, 3508
+        let x = 400;
+        let y = 10;
+        let w = width/10;
+        let h = height/10;
+        fill(255);
+        rect(x, y, w, h);
+        if(previewImg){
+            image(previewImg, x+w/2, y+h/2, (previewImg.width * scaleSlider.value())/10, (previewImg.height * scaleSlider.value())/10 );
+        }
+        if(qrImage){
+            image(qrSample, (x+w)-(20), (y+h)-(20), 20, 20);
+        } 
+        if (title) {
+            push();
+            fill(0);
+            textSize(12);
+            text(title, x+5, (y+h) - 17);
+            pop();
+        }
+        if (createrName) {
+            push();
+            fill(0);
+            textSize(9);
+            text('by ' + createrName, x+5, (y+h) - 2.5);
+            pop();
+        }
+    } else {
+        background(255);
+        if (previewImg) {
+            image(previewImg, width / 2, height / 2, previewImg.width * scaleSlider.value(), previewImg.height * scaleSlider.value());
+        }
+        if (qrImage) {
+            image(qrImage, width - (qrImage.width / 2 + 10), height - (qrImage.height / 2 + 10));
+        }
+    
+        if (title) {
+            fill(0);
+            textSize(120);
+            text(title, 50, height - 170);
+        }
+        if (createrName) {
+            fill(0);
+            textSize(90);
+            text('by ' + createrName, 50, height - 25);
+        }
+        save(cnv, 'myCanvas', 'png');
+        isExport = false;
     }
-    if (qrImage) {
-        image(qrImage, width - (qrImage.width / 2 + 10), height - (qrImage.height / 2 + 10));
-    }
-
-    if (title) {
-        textSize(120);
-        text(title, 50, height - 170);
-    }
-    if (createrName) {
-        textSize(90);
-        text('by ' + createrName, 50, height - 25);
-    }
-
 }
 
 function preview() {
@@ -135,5 +171,6 @@ function handleFile(file) {
 }
 
 function exportImage() {
-    save(cnv, 'myCanvas', 'png');
+    isExport = true;
+    //save(cnv, 'myCanvas', 'png');
 }
