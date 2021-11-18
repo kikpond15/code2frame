@@ -2,12 +2,15 @@ let myFont;
 let inputName, inputTitle, inputImage, inputURL;
 let previewButton, saveButton;
 let scaleSlider;
+let isVertical, isHorizontal;
 
 let p5Img, previewImg;
 let qrImage, qrDiv, qrSample;
 let cnv;
 let createrName, title;
 let isExport;
+let vertiColor, horizColor;
+const rectSize = 25;
 
 function preload() {
     //myFont = loadFont('assets/Inconsolata-Regular.ttf');
@@ -22,6 +25,8 @@ function setup() {
     textFont('Georgia');
     textSize(100);
     isExport = false;
+    isVertical = true;
+    isHorizontal = false;
 
     let div = createDiv('Code2Frame');
     div.style('font-size', '30px');
@@ -63,11 +68,11 @@ function setup() {
     scaleSlider.position(100, 180);
 
     previewButton = createButton('preview');
-    previewButton.position(20, 220);
+    previewButton.position(120, 220);
     previewButton.mousePressed(preview);
 
     saveButton = createButton('export');
-    saveButton.position(100, 220);
+    saveButton.position(200, 220);
     saveButton.mousePressed(exportImage);
 
     imageMode(CENTER);
@@ -131,6 +136,7 @@ function draw() {
         save(cnv, 'myCanvas', 'png');
         isExport = false;
     }
+    verticalORHorizontal();
 }
 
 function preview() {
@@ -173,4 +179,47 @@ function handleFile(file) {
 function exportImage() {
     isExport = true;
     //save(cnv, 'myCanvas', 'png');
+}
+
+function verticalORHorizontal(){
+
+    if(isVertical === true){
+        vertiColor = color(255);
+    } else {
+        vertiColor = color(100);
+    }
+    if(isHorizontal == true){
+        horizColor = color(255);
+    } else {
+        horizColor = color(100);
+    }
+
+    push();
+
+    fill(vertiColor);
+    rect(20, 220, rectSize, rectSize);
+
+    fill(horizColor);
+    rect(20+rectSize, 220, rectSize, rectSize);
+    
+    textSize(30);
+    fill(horizColor);
+    text('v', 24,240);
+    fill(vertiColor);
+    text('h', 50,243);
+
+    pop();
+}
+
+function mouseClicked(){
+    if( 20 < mouseX && mouseX < 20+rectSize && 220 < mouseY && mouseY < 220+rectSize){
+        isVertical = true;
+        isHorizontal = false;
+        //console.log('isVertical= '+ isVertical);
+    }
+    if( 20+rectSize < mouseX && mouseX < 20+rectSize*2 && 220 < mouseY && mouseY < 220+rectSize){
+        isHorizontal = true;
+        isVertical = false;
+        //console.log('isHorizontal= '+isHorizontal);
+    }
 }
