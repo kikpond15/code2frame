@@ -136,7 +136,9 @@ function draw() {
         save(cnv, 'myCanvas', 'png');
         isExport = false;
     }
-    verticalORHorizontal();
+    //-------- TO DO -------------
+    //vertical or Horizontal select
+    //verticalORHorizontal();
 }
 
 function preview() {
