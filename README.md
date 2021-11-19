@@ -1,7 +1,7 @@
 # Code2Frame
 Code2frame works with [openProcessing](https://openprocessing.org/) to provide a format for decorating the code in the frame.
 
-https://kikpond15.github.io/p5_pictureframe_formatter/
+https://kikpond15.github.io/code2frame/
 
 ## How to use
 1. Create a program with openProcessing and post it
