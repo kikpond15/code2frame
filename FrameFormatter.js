@@ -76,6 +76,7 @@ function setup() {
     saveButton.mousePressed(exportImage);
 
     imageMode(CENTER);
+    rectMode(CENTER);
 
     qrDiv = new QRCode(document.getElementById("qrcode"), {
         width: 256,
@@ -88,39 +89,46 @@ function draw() {
 
     if(!isExport){
         //2480, 3508
-        let x = 400;
-        let y = 10;
-        let w = width/10;
-        let h = height/10;
+        let x, y, w, h;
+        x = 600;
+        y = 180;
+        if(isVertical){
+            w = width/10;
+            h = height/10;
+        } else {
+            h = width/10;
+            w = height/10;
+        }
         fill(255);
         rect(x, y, w, h);
         if(previewImg){
-            image(previewImg, x+w/2, y+h/2, (previewImg.width * scaleSlider.value())/10, (previewImg.height * scaleSlider.value())/10 );
+            image(previewImg, x, y, (previewImg.width * scaleSlider.value())/10, (previewImg.height * scaleSlider.value())/10 );
         }
         if(qrImage){
-            image(qrSample, (x+w)-(20), (y+h)-(20), 20, 20);
+            image(qrSample, (x+w/2)-(20), (y+h/2)-(20), 20, 20);
         } 
         if (title) {
             push();
             fill(0);
             textSize(12);
-            text(title, x+5, (y+h) - 17);
+            text(title, (x-w/2)+5, (y+h/2) - 17);
             pop();
         }
         if (createrName) {
             push();
             fill(0);
             textSize(9);
-            text('by ' + createrName, x+5, (y+h) - 2.5);
+            text('by ' + createrName, (x-w/2)+5, (y+h/2) - 2.5);
             pop();
         }
     } else {
+        resizeCanvas(3508, 2480);
         background(255);
         if (previewImg) {
             image(previewImg, width / 2, height / 2, previewImg.width * scaleSlider.value(), previewImg.height * scaleSlider.value());
         }
         if (qrImage) {
-            image(qrImage, width - (qrImage.width / 2 + 10), height - (qrImage.height / 2 + 10));
+            image(qrImage, width - (qrImage.width / 2 + 10), height - (qrImage.height / 2 + 20));
         }
     
         if (title) {
@@ -134,6 +142,7 @@ function draw() {
             text('by ' + createrName, 50, height - 25);
         }
         save(cnv, 'myCanvas', 'png');
+        resizeCanvas(2480,3508);
         isExport = false;
     }
     //-------- TO DO -------------
@@ -199,10 +208,10 @@ function verticalORHorizontal(){
     push();
 
     fill(vertiColor);
-    rect(20, 220, rectSize, rectSize);
+    rect(20+rectSize/2, 220+rectSize/2, rectSize, rectSize);
 
     fill(horizColor);
-    rect(20+rectSize, 220, rectSize, rectSize);
+    rect((20+rectSize/2)+rectSize, 220+rectSize/2, rectSize, rectSize);
     
     textSize(30);
     fill(horizColor);
