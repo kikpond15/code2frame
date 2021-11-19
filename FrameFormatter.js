@@ -122,7 +122,9 @@ function draw() {
             pop();
         }
     } else {
-        resizeCanvas(3508, 2480);
+        if(isHorizontal){
+            resizeCanvas(3508, 2480);
+        }
         background(255);
         if (previewImg) {
             image(previewImg, width / 2, height / 2, previewImg.width * scaleSlider.value(), previewImg.height * scaleSlider.value());
