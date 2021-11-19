@@ -145,9 +145,7 @@ function draw() {
         resizeCanvas(2480,3508);
         isExport = false;
     }
-    //-------- TO DO -------------
-    //vertical or Horizontal select
-    //verticalORHorizontal();
+    verticalORHorizontal();
 }
 
 function preview() {
