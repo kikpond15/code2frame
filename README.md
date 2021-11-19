@@ -9,7 +9,7 @@ https://kikpond15.github.io/code2frame/
 3. Copy the URL of openProcessing
 4. In Code2frame, enter the name, title, copied URL and select the screenshot
 5. Check the completion with the preview button
-6. Select portrait or landscape with V or H
+6. Select portrait or landscape with P or L
 7. Finally export
 
 

@@ -2,19 +2,18 @@ let myFont;
 let inputName, inputTitle, inputImage, inputURL;
 let previewButton, saveButton;
 let scaleSlider;
-let isVertical, isHorizontal;
+let isPortrait, isLandscape;
 
 let p5Img, previewImg;
 let qrImage, qrDiv, qrSample;
 let cnv;
 let createrName, title;
 let isExport;
-let vertiColor, horizColor;
+let portColor, landColor;
+
 const rectSize = 25;
 
 function preload() {
-    //myFont = loadFont('assets/Inconsolata-Regular.ttf');
-    //myFont = loadFont('ヒラギノ角ゴシック');
     qrSample = loadImage('img/QR.png');
 }
 
@@ -25,8 +24,8 @@ function setup() {
     textFont('Georgia');
     textSize(100);
     isExport = false;
-    isVertical = true;
-    isHorizontal = false;
+    isPortrait = true;
+    isLandscape = false;
 
     let div = createDiv('Code2Frame');
     div.style('font-size', '30px');
@@ -92,7 +91,7 @@ function draw() {
         let x, y, w, h;
         x = 600;
         y = 180;
-        if(isVertical){
+        if(isPortrait){
             w = width/10;
             h = height/10;
         } else {
@@ -122,7 +121,7 @@ function draw() {
             pop();
         }
     } else {
-        if(isHorizontal){
+        if(isLandscape){
             resizeCanvas(3508, 2480);
         }
         background(255);
@@ -194,43 +193,41 @@ function exportImage() {
 
 function verticalORHorizontal(){
 
-    if(isVertical === true){
-        vertiColor = color(255);
+    if(isPortrait === true){
+        portColor = color(255);
     } else {
-        vertiColor = color(100);
+        portColor = color(100);
     }
-    if(isHorizontal == true){
-        horizColor = color(255);
+    if(isLandscape == true){
+        landColor = color(255);
     } else {
-        horizColor = color(100);
+        landColor = color(100);
     }
 
     push();
 
-    fill(vertiColor);
+    fill(portColor);
     rect(20+rectSize/2, 220+rectSize/2, rectSize, rectSize);
 
-    fill(horizColor);
+    fill(landColor);
     rect((20+rectSize/2)+rectSize, 220+rectSize/2, rectSize, rectSize);
     
     textSize(30);
-    fill(horizColor);
-    text('v', 24,240);
-    fill(vertiColor);
-    text('h', 50,243);
+    fill(landColor);
+    text('P', 24,243);
+    fill(portColor);
+    text('L', 50,243);
 
     pop();
 }
 
 function mouseClicked(){
     if( 20 < mouseX && mouseX < 20+rectSize && 220 < mouseY && mouseY < 220+rectSize){
-        isVertical = true;
-        isHorizontal = false;
-        //console.log('isVertical= '+ isVertical);
+        isPortrait = true;
+        isLandscape = false;
     }
     if( 20+rectSize < mouseX && mouseX < 20+rectSize*2 && 220 < mouseY && mouseY < 220+rectSize){
-        isHorizontal = true;
-        isVertical = false;
-        //console.log('isHorizontal= '+isHorizontal);
+        isLandscape = true;
+        isPortrait = false;
     }
 }
