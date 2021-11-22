@@ -13,6 +13,5 @@ https://kikpond15.github.io/code2frame/
 7. Finally export
 
 
-![code2frame](https://user-images.githubusercontent.com/29980030/142574862-91dfca9d-20b7-4f7d-8cef-666ba4c8ac5f.gif)
-
-![code2frame](img/code2frame.JPG)
+![code2frame](https://user-images.githubusercontent.com/29980030/142581548-4c4cc1c7-9ea1-4c29-8efd-e68d55a89167.gif)
+<img src="img/code2frame.JPG" width="640">
