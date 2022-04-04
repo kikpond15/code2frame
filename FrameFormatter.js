@@ -86,42 +86,42 @@ function setup() {
 function draw() {
     background(255);
 
-    if(!isExport){
+    if (!isExport) {
         //2480, 3508
         let x, y, w, h;
         x = 600;
         y = 180;
-        if(isPortrait){
-            w = width/10;
-            h = height/10;
+        if (isPortrait) {
+            w = width / 10;
+            h = height / 10;
         } else {
-            h = width/10;
-            w = height/10;
+            h = width / 10;
+            w = height / 10;
         }
         fill(255);
         rect(x, y, w, h);
-        if(previewImg){
-            image(previewImg, x, y, (previewImg.width * scaleSlider.value())/10, (previewImg.height * scaleSlider.value())/10 );
+        if (previewImg) {
+            image(previewImg, x, y, (previewImg.width * scaleSlider.value()) / 10, (previewImg.height * scaleSlider.value()) / 10);
         }
-        if(qrImage){
-            image(qrSample, (x+w/2)-(20), (y+h/2)-(20), 20, 20);
-        } 
+        if (qrImage) {
+            image(qrSample, (x + w / 2) - (20), (y + h / 2) - (20), 20, 20);
+        }
         if (title) {
             push();
             fill(0);
             textSize(12);
-            text(title, (x-w/2)+5, (y+h/2) - 17);
+            text(title, (x - w / 2) + 5, (y + h / 2) - 17);
             pop();
         }
         if (createrName) {
             push();
             fill(0);
             textSize(9);
-            text('by ' + createrName, (x-w/2)+5, (y+h/2) - 2.5);
+            text('by ' + createrName, (x - w / 2) + 5, (y + h / 2) - 2.5);
             pop();
         }
     } else {
-        if(isLandscape){
+        if (isLandscape) {
             resizeCanvas(3508, 2480);
         }
         background(255);
@@ -131,7 +131,7 @@ function draw() {
         if (qrImage) {
             image(qrImage, width - (qrImage.width / 2 + 10), height - (qrImage.height / 2 + 20));
         }
-    
+
         if (title) {
             fill(0);
             textSize(120);
@@ -142,8 +142,8 @@ function draw() {
             textSize(90);
             text('by ' + createrName, 50, height - 25);
         }
-        save(cnv, 'myCanvas', 'png');
-        resizeCanvas(2480,3508);
+        save(cnv, title, 'png');
+        resizeCanvas(2480, 3508);
         isExport = false;
     }
     verticalORHorizontal();
@@ -161,7 +161,7 @@ function preview() {
         qrDiv.makeCode(inputURL.value());
         const qrCodeContainer = document.getElementById('qrcode');
         new QRCode(qrCodeContainer, inputURL.value());
-        const onGeneratedQrImage = function() {
+        const onGeneratedQrImage = function () {
             const qrCodeImage = qrCodeContainer.children[1];
             const base64 = qrCodeImage.getAttribute('src');
             if (base64 === null) {
@@ -191,14 +191,14 @@ function exportImage() {
     //save(cnv, 'myCanvas', 'png');
 }
 
-function verticalORHorizontal(){
+function verticalORHorizontal() {
 
-    if(isPortrait === true){
+    if (isPortrait === true) {
         portColor = color(255);
     } else {
         portColor = color(100);
     }
-    if(isLandscape == true){
+    if (isLandscape == true) {
         landColor = color(255);
     } else {
         landColor = color(100);
@@ -207,26 +207,26 @@ function verticalORHorizontal(){
     push();
 
     fill(portColor);
-    rect(20+rectSize/2, 220+rectSize/2, rectSize, rectSize);
+    rect(20 + rectSize / 2, 220 + rectSize / 2, rectSize, rectSize);
 
     fill(landColor);
-    rect((20+rectSize/2)+rectSize, 220+rectSize/2, rectSize, rectSize);
-    
+    rect((20 + rectSize / 2) + rectSize, 220 + rectSize / 2, rectSize, rectSize);
+
     textSize(30);
     fill(landColor);
-    text('P', 24,243);
+    text('P', 24, 243);
     fill(portColor);
-    text('L', 50,243);
+    text('L', 50, 243);
 
     pop();
 }
 
-function mouseClicked(){
-    if( 20 < mouseX && mouseX < 20+rectSize && 220 < mouseY && mouseY < 220+rectSize){
+function mouseClicked() {
+    if (20 < mouseX && mouseX < 20 + rectSize && 220 < mouseY && mouseY < 220 + rectSize) {
         isPortrait = true;
         isLandscape = false;
     }
-    if( 20+rectSize < mouseX && mouseX < 20+rectSize*2 && 220 < mouseY && mouseY < 220+rectSize){
+    if (20 + rectSize < mouseX && mouseX < 20 + rectSize * 2 && 220 < mouseY && mouseY < 220 + rectSize) {
         isLandscape = true;
         isPortrait = false;
     }
