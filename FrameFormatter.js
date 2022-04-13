@@ -129,18 +129,18 @@ function draw() {
             image(previewImg, width / 2, height / 2, previewImg.width * scaleSlider.value(), previewImg.height * scaleSlider.value());
         }
         if (qrImage) {
-            image(qrImage, width - (qrImage.width / 2 + 10), height - (qrImage.height / 2 + 20));
+            image(qrImage, width - (qrImage.width / 1.5), height - (qrImage.height / 1.5));
         }
 
         if (title) {
             fill(0);
             textSize(120);
-            text(title, 50, height - 170);
+            text(title, 50, height - (qrImage.height / 1.5));
         }
         if (createrName) {
             fill(0);
             textSize(90);
-            text('by ' + createrName, 50, height - 25);
+            text('by ' + createrName, 50, height - (qrImage.height / 3));
         }
         save(cnv, title, 'png');
         resizeCanvas(2480, 3508);
@@ -217,7 +217,6 @@ function verticalORHorizontal() {
     text('P', 24, 243);
     fill(portColor);
     text('L', 50, 243);
-
     pop();
 }
 
