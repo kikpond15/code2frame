@@ -35,14 +35,14 @@ function setup() {
     divName.style('font-size', '16px');
     divName.position(20, 50);
 
-    inputName = createInput('');
+    inputName = createInput('no name');
     inputName.position(100, 50);
 
     let divTitle = createDiv('title');
     divTitle.style('font-size', '16px');
     divTitle.position(20, 80);
 
-    inputTitle = createInput('');
+    inputTitle = createInput('no title');
     inputTitle.position(100, 80);
 
     let divURL = createDiv('site url');
@@ -81,6 +81,7 @@ function setup() {
         width: 256,
         height: 256
     });
+    frameRate(5);
 }
 
 function draw() {
@@ -110,14 +111,14 @@ function draw() {
             push();
             fill(0);
             textSize(12);
-            text(title, (x - w / 2) + 5, (y + h / 2) - 17);
+            text(title, (x - w / 2) + 5, (y + h / 2) - 20);
             pop();
         }
         if (createrName) {
             push();
             fill(0);
             textSize(9);
-            text('by ' + createrName, (x - w / 2) + 5, (y + h / 2) - 2.5);
+            text('by ' + createrName, (x - w / 2) + 5, (y + h / 2) - 4);
             pop();
         }
     } else {
@@ -129,18 +130,18 @@ function draw() {
             image(previewImg, width / 2, height / 2, previewImg.width * scaleSlider.value(), previewImg.height * scaleSlider.value());
         }
         if (qrImage) {
-            image(qrImage, width - (qrImage.width / 1.5), height - (qrImage.height / 1.5));
+            image(qrImage, width - (qrImage.width / 1), height - (qrImage.height / 1.3));
         }
 
         if (title) {
             fill(0);
             textSize(120);
-            text(title, 50, height - (qrImage.height / 1.5));
+            text(title, 50, height - (qrImage.height / 1));
         }
         if (createrName) {
             fill(0);
             textSize(90);
-            text('by ' + createrName, 50, height - (qrImage.height / 3));
+            text('by ' + createrName, 50, height - (qrImage.height / 2.5));
         }
         save(cnv, title, 'png');
         resizeCanvas(2480, 3508);
