@@ -1,25 +1,103 @@
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- PLEASE NO CHANGES BELOW THIS LINE (UNTIL I SAY SO) -->
-    <script language="javascript" type="text/javascript" src="libraries/p5.min.js"></script>
-    <script language="javascript" type="text/javascript" src="FrameFormatter.js"></script>
-    <!-- OK, YOU CAN MAKE CHANGES BELOW THIS LINE AGAIN -->
-    <script src="davidshimjs-qrcodejs-04f46c6/qrcode.js"></script>
-
-    <!-- This line removes any default padding and style.
-       You might only need one of these values set. -->
-    <link href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Code2Frame</title>
+    <meta name="description" content="Format your OpenProcessing sketch with a QR code, ready to print and frame.">
+    <link rel="stylesheet" href="style.css">
+    <script src="config.js" defer></script>
+    <script src="vendor/qrcode.js" defer></script>
+    <script src="js/app.js" defer></script>
 </head>
 
-
-<div id="qrcode" style="width:100px; height:100px; margin-top:30px; display: none;"></div>
-
-
 <body>
+    <main class="app">
+        <form class="panel" id="controls" autocomplete="off">
+            <header>
+                <h1>Code2Frame</h1>
+                <p>Frame your <a href="https://openprocessing.org/" target="_blank" rel="noopener">OpenProcessing</a> sketch with a QR code.</p>
+            </header>
+
+            <label class="field">
+                <span>Title</span>
+                <input type="text" id="title" placeholder="no title">
+            </label>
+
+            <label class="field">
+                <span>Author</span>
+                <input type="text" id="author" placeholder="no name">
+            </label>
+
+            <label class="field">
+                <span>Sketch URL</span>
+                <input type="url" id="url" placeholder="https://openprocessing.org/sketch/…" inputmode="url">
+                <small id="url-error" class="error" hidden>This URL is too long for a QR code.</small>
+            </label>
+
+            <div class="field">
+                <span>Image</span>
+                <label class="dropzone" id="dropzone">
+                    <input type="file" id="file" accept="image/*">
+                    <strong id="file-name">Choose a screenshot</strong>
+                    <small>or drop / paste it anywhere</small>
+                </label>
+            </div>
+
+            <label class="field">
+                <span>Image size <output id="scale-out"></output></span>
+                <input type="range" id="scale" min="20" max="100" step="1" value="85">
+            </label>
+
+            <div class="row">
+                <label class="field">
+                    <span>Paper</span>
+                    <select id="paper">
+                        <option>A4</option>
+                        <option>A3</option>
+                        <option>B5</option>
+                        <option>Letter</option>
+                    </select>
+                </label>
+
+                <label class="field">
+                    <span>Font</span>
+                    <select id="font">
+                        <option value="serif">Serif</option>
+                        <option value="sans">Sans</option>
+                        <option value="mono">Mono</option>
+                    </select>
+                </label>
+            </div>
+
+            <div class="row">
+                <fieldset class="field segmented">
+                    <legend>Orientation</legend>
+                    <label><input type="radio" name="orientation" value="portrait" checked><span>Portrait</span></label>
+                    <label><input type="radio" name="orientation" value="landscape"><span>Landscape</span></label>
+                </fieldset>
+
+                <fieldset class="field segmented">
+                    <legend>Paper color</legend>
+                    <label><input type="radio" name="color" value="white" checked><span>White</span></label>
+                    <label><input type="radio" name="color" value="black"><span>Black</span></label>
+                </fieldset>
+            </div>
+
+            <div class="actions">
+                <button type="button" id="download" class="primary">Download PNG</button>
+                <button type="button" id="print">Print / PDF</button>
+            </div>
+            <small class="hint" id="size-hint"></small>
+        </form>
+
+        <section class="stage" id="stage" aria-label="Preview">
+            <canvas id="preview"></canvas>
+        </section>
+    </main>
+
+    <img id="print-image" alt="">
 </body>
 
 </html>
