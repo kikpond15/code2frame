@@ -235,6 +235,11 @@ button:disabled {
     cursor: progress;
 }
 
+.copyright {
+    margin-top: auto;
+    padding-top: 12px;
+}
+
 .stage {
     display: flex;
     align-items: center;
