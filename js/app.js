@@ -95,8 +95,11 @@
         ctx.fillRect(0, 0, W, H);
 
         // Image: centered on the sheet, kept clear of the caption area.
+        const matrix = qrMatrix(state.url);
+        const urlSize = 3 * u;
+        const lift = matrix ? urlSize + 2 * u : 0; // room for the URL line under the QR
         const boxW = W - margin * 2;
-        const boxH = H - (margin + qrSize + gap) * 2;
+        const boxH = H - (margin + lift + qrSize + gap) * 2;
         if (state.image) {
             const img = state.image;
             const s = Math.min(boxW / img.width, boxH / img.height) * (state.scale / 100);
@@ -128,9 +131,8 @@
         }
 
         // Caption: title and author bottom-left.
-        const matrix = qrMatrix(state.url);
         const textMax = W - margin * 2 - (matrix ? qrSize + gap : 0);
-        const bottom = H - margin;
+        const bottom = H - margin - lift;
         const authorSize = 6.5 * u;
         ctx.fillStyle = fg;
         ctx.textBaseline = 'alphabetic';
@@ -143,8 +145,13 @@
             ctx.fillText(state.title, margin, bottom - 1.5 * u - (state.author ? authorSize * 1.6 : 0));
         }
 
-        // QR bottom-right, snapped to whole pixels so modules stay crisp.
+        // QR bottom-right with its URL underneath, snapped to whole pixels so modules stay crisp.
         if (matrix) {
+            fitText(ctx, state.url, urlSize, boxW);
+            ctx.textAlign = 'right';
+            ctx.fillText(state.url, W - margin, H - margin - 0.5 * u);
+            ctx.textAlign = 'left';
+
             ctx.setTransform(1, 0, 0, 1, 0, 0);
             const n = matrix.length;
             const quiet = dark ? 2 : 0; // white border so it scans on black paper
@@ -152,7 +159,7 @@
             const cell = rawCell >= 4 ? Math.floor(rawCell) : rawCell; // small previews keep the true size
             const size = cell * (n + quiet * 2);
             const x0 = Math.round((W - margin) * k) - size;
-            const y0 = Math.round((H - margin) * k) - size;
+            const y0 = Math.round(bottom * k) - size;
             ctx.fillStyle = '#fff';
             ctx.fillRect(x0, y0, size, size);
             ctx.fillStyle = '#000';
