@@ -126,8 +126,18 @@
         if (event && event.enabled && event.text) {
             ctx.fillStyle = fg;
             ctx.textBaseline = 'alphabetic';
-            fitText(ctx, event.text, 6.5 * u, boxW);
-            ctx.fillText(event.text, margin, margin + 6.5 * u);
+            // "\n" in the text starts a new line; all lines share the size of the widest one.
+            const lines = String(event.text).split('\n');
+            ctx.font = `${6.5 * u}px ${FONTS[state.font]}`;
+            const widest = lines.reduce((p, c) => (ctx.measureText(c).width > ctx.measureText(p).width ? c : p));
+            fitText(ctx, widest, 6.5 * u, boxW);
+            const lineHeight = parseFloat(ctx.font) * 1.35;
+            const center = event.align === 'center';
+            ctx.textAlign = center ? 'center' : 'left';
+            lines.forEach((line, i) => {
+                ctx.fillText(line, center ? W / 2 : margin, margin + 6.5 * u + i * lineHeight);
+            });
+            ctx.textAlign = 'left';
         }
 
         // Caption: title and author bottom-left.
